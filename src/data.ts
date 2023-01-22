@@ -43,7 +43,7 @@ export const dataAccounts = [
             hour: "18:10",
             date: "19/2/2023",
             name: "Amazon",
-            icon: "~/assets/amazon.jpg"
+            icon: "~/assets/amazon.png"
         }],
         scheduledPayments: [
             {
@@ -107,7 +107,7 @@ export const dataAccounts = [
             hour: "18:10",
             date: "19/2/2023",
             name: "Amazon",
-            icon: "~/assets/amazon.jpg"
+            icon: "~/assets/amazon.png"
         }],
         scheduledPayments: [
             {
@@ -139,14 +139,14 @@ export const dataInversions = [
         name: "TRON",
         icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/1958.png"
     }, {
-        name: "AliExpress",
+        name: "AliE",
         icon: "https://the-eshow.com/madrid19/wp-content/uploads/2019/09/logo-aliexpress.jpg"
     }, {
         name: "Ethereum",
         icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"
     }, {
         name: "Amazon",
-        icon: "~/assets/amazon.jpg"
+        icon: "~/assets/amazon.png"
     }, {
         name: "Cardano",
         icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/2010.png"

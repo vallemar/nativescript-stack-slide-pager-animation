@@ -10,23 +10,20 @@ import {StackSlideTransformation} from "~/StackSlideTransformation.android";
 const refContentView = ref();
 const currentCard = ref(0);
 const accounts = ref(dataAccounts);
-const inversions = ref(dataInversions);
 const currentAccount = computed(() => accounts.value[currentCard.value]);
 const lastTransaction = computed(() => currentAccount.value.transactions[0]);
-const onChangeSelected = (args: any) => {
-  const orientation = currentCard.value < args.value ? 300 : -300
-  currentCard.value = args.value;
-  const view = (toRaw(refContentView.value.nativeView) as View);
-  view.opacity = 0.1;
-  view.translateX = orientation;
+const shuffledComputedInversions = computed(() => dataInversions.map(value => ({ value, sort: currentCard.value + Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value));
 
+const onChangeSelected = (args: any) => {
+  currentCard.value = args.value;
+
+  const view = (toRaw(refContentView.value.nativeView) as View);
+  view.opacity = 0;
   view.animate({
     opacity: 1,
-    translate: {
-      y: 0,
-      x: 0
-    },
-    duration: 300
+    duration: 500
   });
 }
 
@@ -36,6 +33,8 @@ function loadedPager(args: { object: any }) {
     args.object.transformers = {};
     const viewPager: androidx.viewpager2.widget.ViewPager2 = (args.object as NSPager).nativeView.getChildAt(0);
     viewPager.setPageTransformer(new StackSlideTransformation());
+  } else {
+    const collectionView: UICollectionView = ((args.object as NSPager).nativeView).subviews[0]
   }
 }
 </script>
@@ -61,11 +60,11 @@ function loadedPager(args: { object: any }) {
           </FlexboxLayout>
 
           <StackLayout>
-            <Pager height="30%" @loaded="loadedPager" transformers="null"
+            <Pager height="250" @loaded="loadedPager" transformers="null"
                    @selectedIndexChange="onChangeSelected">
-              <PagerItem class="p-9 ">
+              <PagerItem class="p-9">
                 <StackLayout class="">
-                  <FlexboxLayout class="w-[100%] h-[100%] rounded-3xl">
+                  <FlexboxLayout class="w-[100%] h-[100%] rounded-3xl justify-center">
                     <Image
                         class="rounded-3xl"
                         src="~/assets/card-1.png"/>
@@ -74,7 +73,7 @@ function loadedPager(args: { object: any }) {
               </PagerItem>
               <PagerItem class="p-9">
                 <StackLayout class="">
-                  <FlexboxLayout class="w-[100%] h-[100%] rounded-3xl">
+                  <FlexboxLayout class="w-[100%] h-[100%] rounded-3xl justify-center">
                     <Image
                         class="rounded-3xl"
                         src="https://ck-content.imgix.net/pcm/content/2afbbf58d0c8fc30071c-Upgrade_digital_card_contactless_CK_CashRewards_final.png?auto=compress&mask=corners&corner-radius=10"/>
@@ -83,14 +82,14 @@ function loadedPager(args: { object: any }) {
               </PagerItem>
               <PagerItem class="p-9">
                 <StackLayout class="">
-                  <FlexboxLayout class="w-[100%] h-[100%] rounded-3xl">
+                  <FlexboxLayout class="w-[100%] h-[100%] rounded-3xl justify-center">
                     <Image src="https://bnext.es/img/template/card-pink.png?v=2"/>
                   </FlexboxLayout>
                 </StackLayout>
               </PagerItem>
               <PagerItem class="p-9">
                 <StackLayout class="">
-                  <FlexboxLayout class="w-[100%] h-[100%] rounded-3xl">
+                  <FlexboxLayout class="w-[100%] h-[100%] rounded-3xl justify-center">
                     <Image
                         src="https://www.caixabank.es/deployedfiles/particulares/Estaticos/Imagenes/Tarjetas/new_Tarjeta_MyCard.png"/>
                   </FlexboxLayout>
@@ -102,9 +101,13 @@ function loadedPager(args: { object: any }) {
             <StackLayout class="flex-col px-3 ">
               <StackLayout class="bg-[#1F2630] rounded-2xl p-3">
                 <FlexboxLayout class="justify-between items-center">
-                  <FlexboxLayout class="items-end">
-                    <Label :text="currentAccount.amount.toString().split('.')[0]" class="text-4xl"/>
-                    <Label :text="`.${currentAccount.amount.toString().split('.')[1]}€`" class="text-xl pb-1"/>
+                  <FlexboxLayout class="items-center justify-start">
+                    <label textWrap="true" class="text-white">
+                      <FormattedString>
+                        <span :text="currentAccount.amount.toString().split('.')[0]" class="text-4xl"/>
+                        <span :text="`.${currentAccount.amount.toString().split('.')[1]}€`" class="text-xl"/>
+                      </FormattedString>
+                    </label>
                   </FlexboxLayout>
                   <Image :src="`~/assets/${currentAccount.region}.png`" stretch="fill"
                          class="h-[40] w-[40] rounded-full"></Image>
@@ -136,8 +139,8 @@ function loadedPager(args: { object: any }) {
               <Label text="Inversions" class="text-lg"></Label>
               <ScrollView orientation="horizontal" class="mt-2" scrollBarIndicatorVisible="false">
                 <FlexboxLayout class="">
-                  <StackLayout v-for="(item, i) in inversions" :key="i" class="flex-col mx-2">
-                    <Image :src="item.icon" stretch="fill" class="h-[50] w-[50] rounded-full"></Image>
+                  <StackLayout v-for="(item, i) in shuffledComputedInversions" :key="i" class="flex-col mx-3">
+                    <ImageCacheIt :src="item.icon" stretch="fill" class="h-[50] w-[50] rounded-full"/>
                     <Label :text="item.name" class="mt-2 text-center"></Label>
                   </StackLayout>
                 </FlexboxLayout>

@@ -9,13 +9,13 @@ const {icon, title, description, rightText} = defineProps({
 </script>
 
 <template>
-  <FlexboxLayout class="justify-between">
+  <FlexboxLayout class="justify-between h-[50]">
     <FlexboxLayout>
       <Image :src="icon" stretch="fill"
              class="h-[50] w-[50] rounded-full"></Image>
       <StackLayout class="ml-2">
         <Label :text="title" class="text-md"></Label>
-        <Label :text="description" class="mt-2 text-left"></Label>
+        <Label textWrap="true" :text="description" class="mt-3 text-left text-xs" style="line-height: 1"></Label>
       </StackLayout>
     </FlexboxLayout>
     <StackLayout>

@@ -6,10 +6,12 @@
   "dependencies": {
     "@nativescript-community/ui-pager": "^13.0.44",
     "@nativescript/core": "~8.4.0",
+    "@triniwiz/nativescript-image-cache-it": "^7.3.0",
     "nativescript-vue": "3.0.0-beta.5"
   },
   "devDependencies": {
     "@nativescript/android": "8.4.0",
+    "@nativescript/ios": "8.4.1",
     "@nativescript/preview-cli": "^1.0.2",
     "@nativescript/stackblitz": "^0.0.6",
     "@nativescript/tailwind": "^2.0.1",

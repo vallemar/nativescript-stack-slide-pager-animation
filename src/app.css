@@ -8,10 +8,12 @@
     font-size: 28;
 }
 
-Label {
+Label,
+Label span{
     color: white;
     font-family: "Inter", "Inter-Regular";
 }
+
 
 .text-md{
     font-size: 16;
