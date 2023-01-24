@@ -5,7 +5,6 @@ import {computed, ref, toRaw} from "vue";
 import {isAndroid, View} from "@nativescript/core";
 import {dataAccounts, dataInversions} from "~/data";
 import ItemList from "~/components/ItemList.vue";
-import {StackSlideTransformation} from "~/StackSlideTransformation.android";
 
 const refContentView = ref();
 const currentCard = ref(0);
@@ -29,10 +28,10 @@ const onChangeSelected = (args: any) => {
 
 
 function loadedPager(args: { object: any }) {
-  if (isAndroid) {
+ if (isAndroid) {
     args.object.transformers = {};
     const viewPager: androidx.viewpager2.widget.ViewPager2 = (args.object as NSPager).nativeView.getChildAt(0);
-    viewPager.setPageTransformer(new StackSlideTransformation());
+
   } else {
     const collectionView: UICollectionView = ((args.object as NSPager).nativeView).subviews[0]
   }
@@ -60,9 +59,9 @@ function loadedPager(args: { object: any }) {
           </FlexboxLayout>
 
           <StackLayout>
-            <Pager height="250" @loaded="loadedPager" transformers="null"
-                   @selectedIndexChange="onChangeSelected">
-              <PagerItem class="p-9">
+            <Pager height="250"
+                   @selectedIndexChange="onChangeSelected" transformers="test">
+              <PagerItem class="m-5">
                 <StackLayout class="">
                   <FlexboxLayout class="w-[100%] h-[100%] rounded-3xl justify-center">
                     <Image
@@ -71,7 +70,7 @@ function loadedPager(args: { object: any }) {
                   </FlexboxLayout>
                 </StackLayout>
               </PagerItem>
-              <PagerItem class="p-9">
+              <PagerItem class="m-5">
                 <StackLayout class="">
                   <FlexboxLayout class="w-[100%] h-[100%] rounded-3xl justify-center">
                     <Image
@@ -80,15 +79,15 @@ function loadedPager(args: { object: any }) {
                   </FlexboxLayout>
                 </StackLayout>
               </PagerItem>
-              <PagerItem class="p-9">
-                <StackLayout class="">
+              <PagerItem >
+                <StackLayout class="m-5">
                   <FlexboxLayout class="w-[100%] h-[100%] rounded-3xl justify-center">
                     <Image src="https://bnext.es/img/template/card-pink.png?v=2"/>
                   </FlexboxLayout>
                 </StackLayout>
               </PagerItem>
-              <PagerItem class="p-9">
-                <StackLayout class="">
+              <PagerItem >
+                <StackLayout class="m-5">
                   <FlexboxLayout class="w-[100%] h-[100%] rounded-3xl justify-center">
                     <Image
                         src="https://www.caixabank.es/deployedfiles/particulares/Estaticos/Imagenes/Tarjetas/new_Tarjeta_MyCard.png"/>

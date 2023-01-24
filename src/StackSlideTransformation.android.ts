@@ -1,6 +1,38 @@
+import {Utils} from "@nativescript/core";
+
 @NativeClass
 @Interfaces([androidx.viewpager2.widget.ViewPager2.PageTransformer])
-export class StackSlideTransformation extends java.lang.Object implements androidx.viewpager2.widget.ViewPager2.PageTransformer {
+export default class StackSlideTransformation extends java.lang.Object implements androidx.viewpager2.widget.ViewPager2.PageTransformer {
+    DEFAULT_TRANSLATION_X = .0
+    DEFAULT_TRANSLATION_FACTOR = 1.2
+    SCALE_FACTOR = 0.30
+    DEFAULT_SCALE = 1
+    ALPHA_FACTOR = .3
+    DEFAULT_ALPHA = 1
+    offscreenPageLimit = 3
+
+    transformPage(page: android.view.View, position: any) {
+        const viewPager = page.getParent().getParent() as androidx.viewpager2.widget.ViewPager2
+        viewPager.setOffscreenPageLimit(4);
+        viewPager.setClipToPadding(false);
+        viewPager.setClipChildren(false);
+        androidx.core.view.ViewCompat.setElevation(page, -Math.abs(position))
+
+        const translate= 120
+        const staleFactor = 0.30
+        const scale = 1 - (staleFactor * Math.abs(position) )
+        const pageTranslationX = Utils.layout.toDevicePixels(translate);
+
+        page.setTranslationX(-(pageTranslationX ) * position)
+        page.setScaleY(scale)
+        page.setScaleX(scale)
+
+    }
+}
+
+/*@NativeClass
+@Interfaces([androidx.viewpager2.widget.ViewPager2.PageTransformer])
+export default class StackSlideTransformation extends java.lang.Object implements androidx.viewpager2.widget.ViewPager2.PageTransformer {
     DEFAULT_TRANSLATION_X = .0
     DEFAULT_TRANSLATION_FACTOR = 1.2
     SCALE_FACTOR = .14
@@ -31,4 +63,9 @@ export class StackSlideTransformation extends java.lang.Object implements androi
             page.setAlpha(this.DEFAULT_ALPHA);
         }
     }
-}
+}*/
+
+
+/*export class StackSlideTransformation  {
+
+}*/
